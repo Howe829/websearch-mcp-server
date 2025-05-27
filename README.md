@@ -19,7 +19,7 @@ A simple web search server that supports free search and converts URL content to
 1.  Clone the repository:
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/Howe829/websearch-mcp-server.git
     cd websearch-mcp-server
     ```
 
