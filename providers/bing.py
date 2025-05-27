@@ -1,5 +1,6 @@
 from providers.base import BaseWebSearchProvider
 from config import settings
+from typing import Optional
 
 
 class BingSearch(BaseWebSearchProvider):
@@ -8,10 +9,14 @@ class BingSearch(BaseWebSearchProvider):
     """
 
     def _get_url(self):
-        return f"{settings.bing_search_base_url}/search"
+        return f"{settings.bing_search_base_url}"
 
-    def _get_params(self, query: str, cc:str = None, lang: str = None) -> dict:
-        params = {"q": query, "cc": cc or  settings.cc, "setlang": lang or settings.language}
+    def _get_params(self, query: str, cc: Optional[str] = None, lang: Optional[str] = None) -> dict:
+        params = {
+            "q": query,
+            "cc": cc or  settings.cc,
+            "setlang": lang or settings.language
+        }
         return params
 
 

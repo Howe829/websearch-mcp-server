@@ -1,4 +1,6 @@
 import asyncio
+from os import name
+from curl_cffi.requests import impersonate
 from fastmcp import FastMCP
 
 from providers.factory import WebSearchProviderFactory
@@ -8,14 +10,16 @@ from config import settings
 server = FastMCP("WebSearch MCP Server")
 
 
-@server.tool()
-async def websearch(query: str, provider_name: str = "bing") -> str:
+@server.tool(name="WebSearch")
+async def websearch(query: str, provider_name: str = "bing", cc: str = "us", lang: str = "en") -> str:
     """
     Perform a web search.
 
     Args:
         query: The search query.
         provider_name: The search engine provider (currently only supports 'bing').
+        cc: Country/Region code for example: us, cn, jp, etc.
+        lang: Language such as en, zh-Hans, ja, etc
 
     Returns:
         Search result in markdown syntax.
@@ -23,11 +27,11 @@ async def websearch(query: str, provider_name: str = "bing") -> str:
 
     factory = WebSearchProviderFactory()
     engine = factory.get_provider(provider_name=provider_name)
-    result = await engine.search(query=query)
+    result = await engine.search(query=query, cc=cc, lang=lang)
     return result
 
 
-@server.tool()
+@server.tool(name="OpenUrl")
 async def open_url(url: str) -> str:
     """
     Open a URL and retrieve its content.
@@ -38,7 +42,7 @@ async def open_url(url: str) -> str:
     Returns:
         Web content in markdown syntax.
     """
-    return await aio_client.get_markdown(url)
+    return await aio_client.get_markdown(url, impersonate=settings.impersonate)
 
 async def main():
     match settings.server_mode:
