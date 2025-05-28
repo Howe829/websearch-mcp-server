@@ -29,7 +29,5 @@ async def test_open_wechat_article_link():
     result = await aio_client.get(url)
     parts = re.findall(r"url\s*\+=\s*'([^']+)'", result)
     full_url = "".join(parts)
-    print(full_url)
     text = await aio_client.get_markdown(full_url)
-    print(text)
     assert "var url" in result

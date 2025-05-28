@@ -65,7 +65,6 @@ async def open_wechat_article_link(link: str) -> dict:
     result = await aio_client.get(url)
     parts = re.findall(r"url\s*\+=\s*'([^']+)'", result)
     full_url = "".join(parts)
-    print(full_url)
     if not full_url.startswith("https"):
         return {"error": f"bad request with link [{link}]"}
     text = await aio_client.get_markdown(full_url)
