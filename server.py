@@ -1,17 +1,22 @@
 import asyncio
-from os import name
-from curl_cffi.requests import impersonate
+import re
 from fastmcp import FastMCP
+from urllib.parse import urljoin
 
 from providers.factory import WebSearchProviderFactory
+from providers.enums import WebSearchProvidersEnum
 from http_client import aio_client
 from config import settings
 
 server = FastMCP("WebSearch MCP Server")
 
+provider_factory = WebSearchProviderFactory()
+
 
 @server.tool(name="WebSearch")
-async def websearch(query: str, provider_name: str = "bing", cc: str = "us", lang: str = "en") -> str:
+async def websearch(
+    query: str, provider_name: str = "bing", cc: str = "us", lang: str = "en"
+) -> str:
     """
     Perform a web search.
 
@@ -25,8 +30,7 @@ async def websearch(query: str, provider_name: str = "bing", cc: str = "us", lan
         Search result in markdown syntax.
     """
 
-    factory = WebSearchProviderFactory()
-    engine = factory.get_provider(provider_name=provider_name)
+    engine = provider_factory.get_provider(provider_name=provider_name)
     result = await engine.search(query=query, cc=cc, lang=lang)
     return result
 
@@ -42,7 +46,48 @@ async def open_url(url: str) -> str:
     Returns:
         Web content in markdown syntax.
     """
-    return await aio_client.get_markdown(url, impersonate=settings.impersonate)
+    return await aio_client.get_markdown(url)
+
+
+@server.tool(name="OpenWechatArticleLink")
+async def open_wechat_article_link(link: str) -> dict:
+    """
+    Open a wechat article link and retrieve its content.
+    Remember you have to do the WechatSearch first before you open the link, otherwise it will be failed
+
+    Args:
+        url: The URL to be opened.Generally starts with '/link'
+
+    Returns:
+        Web content in markdown syntax.
+    """
+    url = urljoin("https://weixin.sogou.com", link)
+    result = await aio_client.get(url)
+    parts = re.findall(r"url\s*\+=\s*'([^']+)'", result)
+    full_url = "".join(parts)
+    if not full_url.startswith("https"):
+        return {"error": f"bad request with link [{link}]"}
+    text = await aio_client.get_markdown(full_url)
+    return {"url": full_url, "content": text}
+
+
+@server.tool(name="WechatSearch")
+async def wechat_search(query: str) -> str:
+    """
+    Search WeChat Articles
+    Args:
+        query: search query.
+
+    Returns:
+        Search result in markdown syntax.
+    """
+
+    engine = provider_factory.get_provider(
+        provider_name=WebSearchProvidersEnum.WECHAT.value
+    )
+    result = await engine.search(query=query)
+    return result
+
 
 async def main():
     match settings.server_mode:
@@ -54,7 +99,6 @@ async def main():
             )
         case _:
             raise ValueError(f"Unsupported server mode [{settings.server_mode}]")
-    
 
 
 if __name__ == "__main__":
