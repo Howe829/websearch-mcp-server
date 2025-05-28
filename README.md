@@ -1,6 +1,6 @@
 # WebSearch MCP Server
 
-A simple web search server that supports free search and converts URL content to Markdown.
+A simple web search server that supports free search and converts URL content to Markdown. [中文](README-zh.md)
 
 ## Features
 
@@ -53,7 +53,7 @@ A simple web search server that supports free search and converts URL content to
     IMPERSONATE="edge"
     HOST=127.0.0.1
     PORT=8002
-    SERVER_MODE=stdio
+    SERVER_MODE=streamable-http
     ```
 
 ### Usage

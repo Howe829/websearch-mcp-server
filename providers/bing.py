@@ -18,6 +18,7 @@ class BingSearch(BaseWebSearchProvider):
             "q": query,
             "cc": cc or settings.cc,
             "setlang": lang or settings.language,
+            "form": "QBLH"
         }
         return params
 
