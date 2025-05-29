@@ -2,9 +2,10 @@ import asyncio
 import re
 from fastmcp import FastMCP
 from urllib.parse import urljoin
+from typing import Literal
 
 from providers.factory import WebSearchProviderFactory
-from providers.enums import WebSearchProvidersEnum
+from providers.enums import WebSearchProvidersEnum, GithubSearchTypesEnum
 from http_client import aio_client
 from config import settings
 
@@ -86,6 +87,40 @@ async def wechat_search(query: str) -> str:
         provider_name=WebSearchProvidersEnum.WECHAT.value
     )
     result = await engine.search(query=query)
+    return result
+
+
+@server.tool(name="GithubSearch")
+async def github_search(
+    query: str,
+    type: Literal[
+        GithubSearchTypesEnum.REPO,
+        GithubSearchTypesEnum.CODE,
+        GithubSearchTypesEnum.ISSUE,
+        GithubSearchTypesEnum.PR,
+        GithubSearchTypesEnum.DISCUSS,
+        GithubSearchTypesEnum.USER,
+        GithubSearchTypesEnum.COMMIT,
+        GithubSearchTypesEnum.PACKAGE,
+        GithubSearchTypesEnum.WIKI,
+        GithubSearchTypesEnum.TOPIC,
+        GithubSearchTypesEnum.MARKETPLACE,
+    ],
+) -> str:
+    """
+    Search All Github
+    Args:
+        query: search query.
+        type: search type support: repositoris, code, issues, pullrequests, users, discussions, commits, packages, wikis, topics, marketplace
+
+    Returns:
+        Search result in markdown syntax.
+    """
+
+    engine = provider_factory.get_provider(
+        provider_name=WebSearchProvidersEnum.GITHUB.value
+    )
+    result = await engine.search(query=query, type=type)
     return result
 
 

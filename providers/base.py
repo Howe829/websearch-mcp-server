@@ -10,14 +10,10 @@ class BaseWebSearchProvider(BaseModel):
         raise NotImplementedError
 
     @abstractmethod
-    def _get_params(
-        self, query: str, **kwargs
-    ) -> dict:
+    def _get_params(self, query: str, **kwargs) -> dict:
         raise NotImplementedError
 
-    async def search(
-        self, query: str, **kwargs
-    ) -> str:
+    async def search(self, query: str, **kwargs) -> str:
         url = self._get_url()
         params = self._get_params(query=query, **kwargs)
         return await aio_client.get_markdown(
