@@ -2,7 +2,6 @@ from abc import abstractmethod
 from pydantic import BaseModel
 from config import settings
 from http_client import aio_client
-from typing import Optional
 
 
 class BaseWebSearchProvider(BaseModel):
@@ -12,15 +11,15 @@ class BaseWebSearchProvider(BaseModel):
 
     @abstractmethod
     def _get_params(
-        self, query: str, cc: Optional[str] = None, lang: Optional[str] = None
+        self, query: str, **kwargs
     ) -> dict:
         raise NotImplementedError
 
     async def search(
-        self, query: str, cc: Optional[str] = None, lang: Optional[str] = None, **kwargs
+        self, query: str, **kwargs
     ) -> str:
         url = self._get_url()
-        params = self._get_params(query=query, cc=cc, lang=lang)
+        params = self._get_params(query=query, **kwargs)
         return await aio_client.get_markdown(
-            url=url, params=params, impersonate=settings.impersonate, **kwargs
+            url=url, params=params, impersonate=settings.impersonate
         )

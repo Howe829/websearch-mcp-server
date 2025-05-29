@@ -12,12 +12,12 @@ class BingSearch(BaseWebSearchProvider):
         return f"{settings.bing_search_base_url}"
 
     def _get_params(
-        self, query: str, cc: Optional[str] = None, lang: Optional[str] = None
+        self, query: str, **kwargs
     ) -> dict:
         params = {
             "q": query,
-            "cc": cc or settings.cc,
-            "setlang": lang or settings.language,
+            "cc": kwargs.get("cc") or settings.cc,
+            "setlang": kwargs.get("lang") or settings.language,
             "form": "QBLH"
         }
         return params

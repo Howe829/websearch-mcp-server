@@ -1,6 +1,4 @@
 from providers.base import BaseWebSearchProvider
-from config import settings
-from typing import Optional
 
 
 class WechatSearch(BaseWebSearchProvider):
@@ -12,7 +10,7 @@ class WechatSearch(BaseWebSearchProvider):
         return "https://weixin.sogou.com/weixin"
 
     def _get_params(
-        self, query: str, cc: Optional[str] = None, lang: Optional[str] = None
+        self, query: str, **kwargs
     ) -> dict:
         params = {"query": query, "type": 2}
         return params
