@@ -106,12 +106,14 @@ async def github_search(
         GithubSearchTypesEnum.TOPIC,
         GithubSearchTypesEnum.MARKETPLACE,
     ],
+    page: int = 1
 ) -> str:
     """
     Search All Github
     Args:
         query: search query.
-        type: search type support: repositoris, code, issues, pullrequests, users, discussions, commits, packages, wikis, topics, marketplace
+        type: search type support: repositoris, code, issues, pullrequests, users, discussions, commits, packages, wikis, topics, marketplace.
+        page: pagination param default is 1
 
     Returns:
         Search result in markdown syntax.
@@ -120,7 +122,7 @@ async def github_search(
     engine = provider_factory.get_provider(
         provider_name=WebSearchProvidersEnum.GITHUB.value
     )
-    result = await engine.search(query=query, type=type)
+    result = await engine.search(query=query, type=type, page=page)
     return result
 
 

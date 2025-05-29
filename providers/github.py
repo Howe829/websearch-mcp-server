@@ -14,6 +14,7 @@ class GithubSearch(BaseWebSearchProvider):
         params = {
             "q": query,
             "type": kwargs.get("type", GithubSearchTypesEnum.REPO.value),
+            "p": kwargs.get("page", 1)
         }
         return params
 
