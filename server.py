@@ -8,6 +8,7 @@ from providers.factory import WebSearchProviderFactory
 from providers.enums import WebSearchProvidersEnum, GithubSearchTypesEnum
 from http_client import aio_client
 from config import settings
+from providers.baidu import BaiduSearch
 
 server = FastMCP("WebSearch MCP Server")
 
@@ -16,16 +17,16 @@ provider_factory = WebSearchProviderFactory()
 
 @server.tool(name="WebSearch")
 async def websearch(
-    query: str, provider_name: str = "bing", cc: str = "us", lang: str = "en"
+    query: str, provider_name: Literal[WebSearchProvidersEnum.BING, WebSearchProvidersEnum.BAIDU], cc: str = "us", lang: str = "en"
 ) -> str:
     """
     Perform a web search.
 
     Args:
         query: The search query.
-        provider_name: The search engine provider (currently only supports 'bing').
+        provider_name: The search engine provider name, currently support: bing, baidu.
         cc: Country/Region code for example: us, cn, jp, etc.
-        lang: Language such as en, zh-Hans, ja, etc
+        lang: Language such as en, zh-CN, ja, etc
 
     Returns:
         Search result in markdown syntax.

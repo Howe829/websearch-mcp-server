@@ -1,6 +1,5 @@
 from providers.base import BaseWebSearchProvider
 from config import settings
-from typing import Optional
 
 
 class BingSearch(BaseWebSearchProvider):

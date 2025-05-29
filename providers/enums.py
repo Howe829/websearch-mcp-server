@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class WebSearchProvidersEnum(str, Enum):
+    BAIDU = "baidu"
     BING = "bing"
     WECHAT = "wechat"
     GITHUB = "github"
