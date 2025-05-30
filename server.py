@@ -1,5 +1,6 @@
-import asyncio
+import sys
 import re
+import asyncio
 from fastmcp import FastMCP
 from urllib.parse import urljoin
 from typing import Literal
@@ -8,6 +9,9 @@ from providers.factory import WebSearchProviderFactory
 from providers.enums import WebSearchProvidersEnum, GithubSearchTypesEnum
 from http_client import aio_client
 from config import settings
+
+if sys.version_info >= (3, 8) and sys.platform.lower().startswith("win"):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 server = FastMCP("WebSearch MCP Server", stateless_http=True)
 
