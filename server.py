@@ -16,7 +16,10 @@ provider_factory = WebSearchProviderFactory()
 
 @server.tool(name="WebSearch")
 async def websearch(
-    query: str, provider_name: Literal[WebSearchProvidersEnum.BING, WebSearchProvidersEnum.BAIDU], cc: str = "us", lang: str = "en"
+    query: str,
+    provider_name: Literal[WebSearchProvidersEnum.BING, WebSearchProvidersEnum.BAIDU],
+    cc: str = "us",
+    lang: str = "en",
 ) -> str:
     """
     Perform a web search.
@@ -106,7 +109,7 @@ async def github_search(
         GithubSearchTypesEnum.TOPIC,
         GithubSearchTypesEnum.MARKETPLACE,
     ],
-    page: int = 1
+    page: int = 1,
 ) -> str:
     """
     Search All Github

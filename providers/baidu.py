@@ -2,7 +2,6 @@ from providers.base import BaseWebSearchProvider
 
 
 class BaiduSearch(BaseWebSearchProvider):
-
     def _get_url(self):
         return "https://www.baidu.com/s"
 
