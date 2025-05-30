@@ -8,9 +8,8 @@ from providers.factory import WebSearchProviderFactory
 from providers.enums import WebSearchProvidersEnum, GithubSearchTypesEnum
 from http_client import aio_client
 from config import settings
-from providers.baidu import BaiduSearch
 
-server = FastMCP("WebSearch MCP Server")
+server = FastMCP("WebSearch MCP Server", stateless_http=True)
 
 provider_factory = WebSearchProviderFactory()
 

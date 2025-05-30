@@ -49,7 +49,7 @@
 
     ```
     BING_SEARCH_BASE_URL="https://www.cn.bing.com"
-    LANGUAGE="zh-Hans"
+    LANGUAGE="zh-CN"
     CC="cn"
     IMPERSONATE="edge"
     HOST=127.0.0.1
