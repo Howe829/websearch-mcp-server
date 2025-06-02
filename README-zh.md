@@ -4,7 +4,7 @@
 
 ## 功能特点
 
--   **网络搜索：** 使用不同的搜索提供商进行网络搜索。目前仅支持必应(Bing), 百度。
+-   **网络搜索：** 使用不同的搜索提供商进行网络搜索。目前支持必应(Bing)、百度、谷歌。
 -   **Markdown转换：** 将URL内容转换为Markdown格式。
 -   **微信公众号文章：** 搜索并获取微信公众号文章内容。
 -   **GitHub 搜索功能：** 轻松搜索 GitHub 上的所有内容，包括仓库、用户、问题等。
@@ -49,6 +49,7 @@
 
     ```
     BING_SEARCH_BASE_URL="https://www.cn.bing.com"
+    GOOGLE_SEARCH_BASE_URL="https://www.google.com.hk"
     LANGUAGE="zh-CN"
     CC="cn"
     IMPERSONATE="edge"

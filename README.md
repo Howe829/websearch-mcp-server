@@ -4,7 +4,7 @@ A simple web search server that supports free search and converts URL content to
 
 ## Features
 
--   **Web Search:** Perform web searches using different providers. Supported providers: Bing, Baidu.
+-   **Web Search:** Perform web searches using different providers. Supported providers: Bing, Baidu, Google(with browser_use).
 -   **Markdown Conversion:** Convert the content of a URL into Markdown format.
 -   **Wechat Official Account Articles:** Search and retrive wechat official account articles content.
 -   **GitHub Search:** Easily search for anything on GitHub — repositories, users, issues, and more.
