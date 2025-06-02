@@ -8,7 +8,7 @@ class BingSearch(BaseWebSearchProvider):
     """
 
     def _get_url(self):
-        return f"{settings.bing_search_base_url}"
+        return f"{settings.bing_search_base_url}/search"
 
     def _get_params(self, query: str, **kwargs) -> dict:
         params = {

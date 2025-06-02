@@ -21,18 +21,24 @@ provider_factory = WebSearchProviderFactory()
 @server.tool(name="WebSearch")
 async def websearch(
     query: str,
-    provider_name: Literal[WebSearchProvidersEnum.BING, WebSearchProvidersEnum.BAIDU],
+    provider_name: Literal[
+        WebSearchProvidersEnum.BING,
+        WebSearchProvidersEnum.BAIDU,
+        WebSearchProvidersEnum.GOOGLE,
+    ],
     cc: str = "us",
     lang: str = "en",
+    use_browser: bool = False,
 ) -> str:
     """
     Perform a web search.
 
     Args:
         query: The search query.
-        provider_name: The search engine provider name, currently support: bing, baidu.
+        provider_name: The search engine provider name, support: bing, baidu，google.
         cc: Country/Region code for example: us, cn, jp, etc.
         lang: Language such as en, zh-CN, ja, etc
+        use_browser: Whether to use a browser to query, when use google must set use_brower=True
 
     Returns:
         Search result in markdown syntax.

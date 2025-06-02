@@ -6,6 +6,7 @@ class WebSearchProvidersEnum(str, Enum):
     BING = "bing"
     WECHAT = "wechat"
     GITHUB = "github"
+    GOOGLE = "google"
 
 
 class GithubSearchTypesEnum(str, Enum):
