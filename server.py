@@ -8,11 +8,27 @@ from providers.factory import WebSearchProviderFactory
 from providers.enums import WebSearchProvidersEnum, GithubSearchTypesEnum
 from http_client import aio_client
 from config import settings
+from xagents.agent import agent_search, SearchResult
 
 server = FastMCP("WebSearch MCP Server")
 
 provider_factory = WebSearchProviderFactory()
 
+@server.tool(name="AgentSearch")
+async def agent_search_tool(
+    query: str,
+) -> SearchResult:
+    """
+    Perform a agentic search
+
+    Args:
+        query: The search query.
+
+    Returns:
+        instance of SearchResult
+    """
+    return await agent_search.search(query)
+    
 
 @server.tool(name="BingSearch")
 async def bing_search(
@@ -34,9 +50,12 @@ async def bing_search(
         Search result in markdown syntax.
     """
 
-    engine = provider_factory.get_provider(provider_name=WebSearchProvidersEnum.BING.value)
+    engine = provider_factory.get_provider(
+        provider_name=WebSearchProvidersEnum.BING.value
+    )
     result = await engine.search(query=query, use_browser=use_browser, cc=cc, lang=lang)
     return result
+
 
 @server.tool(name="BaiduSearch")
 async def baidu_search(
@@ -54,9 +73,12 @@ async def baidu_search(
         Search result in markdown syntax.
     """
 
-    engine = provider_factory.get_provider(provider_name=WebSearchProvidersEnum.BAIDU.value)
+    engine = provider_factory.get_provider(
+        provider_name=WebSearchProvidersEnum.BAIDU.value
+    )
     result = await engine.search(query=query, use_browser=use_browser)
     return result
+
 
 @server.tool(name="GoogleSearch")
 async def websearch(
@@ -65,20 +87,23 @@ async def websearch(
     lang: str = "en",
 ) -> str:
     """
-   Perform a google search.
+    Perform a google search.
 
-    Args:
-        query: The search query.
-        cc: Country/Region code for example: us, cn, jp, etc.
-        lang: Language such as en, zh-CN, ja, etc
+     Args:
+         query: The search query.
+         cc: Country/Region code for example: us, cn, jp, etc.
+         lang: Language such as en, zh-CN, ja, etc
 
-    Returns:
-        Search result in markdown syntax.
+     Returns:
+         Search result in markdown syntax.
     """
 
-    engine = provider_factory.get_provider(provider_name=WebSearchProvidersEnum.GOOGLE.value)
+    engine = provider_factory.get_provider(
+        provider_name=WebSearchProvidersEnum.GOOGLE.value
+    )
     result = await engine.search(query=query, cc=cc, lang=lang)
     return result
+
 
 @server.tool(name="OpenUrl")
 async def open_url(url: str) -> str:
