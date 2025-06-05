@@ -1,6 +1,7 @@
 import asyncio
+import sys
 import nodriver as uc
-from curl_cffi import AsyncSession
+from curl_cffi import requests, AsyncSession
 from markitdown import MarkItDown
 from io import BytesIO
 from requests import Request
@@ -12,11 +13,22 @@ md = MarkItDown(enable_plugins=False)
 
 class AsyncHttpClient:
     def __init__(self):
-        self._session = AsyncSession(impersonate=settings.impersonate)
+        if self.is_windows:
+            self._session = requests.Session(impersonate=settings.impersonate)
+        else:
+            self._session = AsyncSession(impersonate=settings.impersonate)
 
-    async def _get_by_curl(self, url: str, params: Optional[dict]) -> str:
+    @property
+    def is_windows(self):
+        return sys.platform.startswith("win")
+
+    async def _get_by_curl_async(self, url: str, params: Optional[dict]) -> str:
         self._session.acurl.loop = asyncio.get_running_loop()
         response = await self._session.get(url=url, params=params)
+        return response.text
+
+    def _get_by_curl(self, url: str, params: Optional[dict]) -> str:
+        response = self._session.get(url=url, params=params)
         return response.text
 
     async def _get_by_browser(self, url: str, params: Optional[dict]) -> str:
@@ -36,9 +48,11 @@ class AsyncHttpClient:
     async def get(
         self, url: str, params: Optional[dict] = None, use_browser: bool = False
     ) -> str:
-        if not use_browser:
-            return await self._get_by_curl(url, params)
-        return await self._get_by_browser(url, params)
+        if use_browser:
+            return await self._get_by_browser(url, params)
+        if self.is_windows:
+            return self._get_by_curl(url, params)
+        return await self._get_by_curl_async(url, params)
 
     async def get_markdown(
         self, url: str, params: Optional[dict] = None, use_browser: bool = False

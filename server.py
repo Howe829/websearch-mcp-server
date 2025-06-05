@@ -1,4 +1,3 @@
-import sys
 import re
 import asyncio
 from fastmcp import FastMCP
@@ -10,10 +9,7 @@ from providers.enums import WebSearchProvidersEnum, GithubSearchTypesEnum
 from http_client import aio_client
 from config import settings
 
-if sys.version_info >= (3, 8) and sys.platform.lower().startswith("win"):
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
-server = FastMCP("WebSearch MCP Server", stateless_http=True)
+server = FastMCP("WebSearch MCP Server")
 
 provider_factory = WebSearchProviderFactory()
 
@@ -24,7 +20,6 @@ async def websearch(
     provider_name: Literal[
         WebSearchProvidersEnum.BING,
         WebSearchProvidersEnum.BAIDU,
-        WebSearchProvidersEnum.GOOGLE,
     ],
     cc: str = "us",
     lang: str = "en",
@@ -45,7 +40,7 @@ async def websearch(
     """
 
     engine = provider_factory.get_provider(provider_name=provider_name)
-    result = await engine.search(query=query, cc=cc, lang=lang)
+    result = await engine.search(query=query, use_browser=use_browser, cc=cc, lang=lang)
     return result
 
 
