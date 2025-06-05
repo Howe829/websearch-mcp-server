@@ -17,13 +17,13 @@ class GoogleSearch(BaseWebSearchProvider):
         }
         return params
 
-    async def search(self, query: str, use_browser: bool = True, **kwargs) -> str:
+    async def search(self, query: str, **kwargs) -> str:
         url = self._get_url()
         params = self._get_params(query=query, **kwargs)
         return await aio_client.get_markdown(
             url=url,
             params=params,
-            use_browser=True,  # google search must use browser to query
+            use_browser=True,  # google search must use browser to query, due to it's strictly anti-bot pilocy
         )
 
 

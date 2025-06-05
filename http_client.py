@@ -37,7 +37,7 @@ class AsyncHttpClient:
             req = Request("GET", url, params=params).prepare()
             url = req.url if req.url is not None else url
             tab = await driver.get(url)
-            await asyncio.sleep(1)
+            await asyncio.sleep(5)
             text = await tab.get_content()
             return text
         except Exception as e:
