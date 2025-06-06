@@ -18,5 +18,24 @@ class BingSearch(BaseWebSearchProvider):
         }
         return params
 
+    @property
+    def description(self):
+        return """
+        Strengths:
+        - Excellent support for English queries
+        - Handles structured search operators well (site:, filetype:, before:, after:, etc.)
+        - Good at answering natural language questions (especially in English)
+        - Strong performance for technical, coding, and international finance topics
+        
+        Weaknesses:
+        - Less effective at retrieving localized Chinese content
+        - Sometimes inferior Chinese-language result quality compared to Baidu
+        
+        Query Strategy:
+        - For English: Use precise keywords + operators (e.g., `gold price today site:kitco.com`)
+        - For Chinese: Keep queries concise but add intent-enhancing modifiers (e.g., “实时”, “走势图”)
+        - Prefer Bing for technical, financial, or global information needs
+        """
+
 
 bing_search = BingSearch()

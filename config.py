@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     host: str
     port: int
     server_mode: str
+    llm_base_url: str
+    llm_api_key: str
+    llm_model_name: str
 
 
 settings = Settings()
